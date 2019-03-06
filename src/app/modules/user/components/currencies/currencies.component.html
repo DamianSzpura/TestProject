@@ -1,0 +1,15 @@
+<div class="jumbotron">
+  <h1>
+    Currencies
+  </h1>
+  <div class="currencyComponents" *ngFor="let currencyValues of currencyValuesList">
+    <app-currency-pln
+      [currency]="currencyValues.currency"
+      (plnCurrencyValues)="onBidGet($event)">
+    </app-currency-pln>
+    <app-currency-usd
+      [currency]="currencyValues.currency"
+      [usdBid]="currencyValues.bidValue">
+    </app-currency-usd>
+  </div>
+</div>

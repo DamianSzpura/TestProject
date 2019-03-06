@@ -1,0 +1,12 @@
+<p *ngIf="usdBid">
+  {{currency}}/USD
+  <b *ngIf="currency == 'BTC'; else normalPrint"
+      style="color: #FFFF00">
+      {{usdBid | number : '1.1-1'}}
+  </b>
+  <ng-template #normalPrint>
+    <b>
+      {{usdBid | number : '1.1-1'}}
+    </b>
+  </ng-template>
+</p>
