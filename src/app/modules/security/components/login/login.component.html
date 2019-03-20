@@ -1,7 +1,7 @@
-
 <div class="row">
     <div class="col-md-6 offset-md-3">
-      <div class="jumbotron">
+      <div class="jumbotron"
+           *ngIf="!activeUser; else alreadyLoggedin">
         <h2>
           Login
         </h2>
@@ -45,5 +45,17 @@
             </div>
         </form>
       </div>
+      <ng-template #alreadyLoggedin>
+        <div class="jumbotron">
+          <h3>
+            You are already logged in.
+          </h3>
+          <button type="button"
+                  class="btn btn-primary"
+                  (click)="onLogout()">
+                  Logout
+          </button>
+        </div>
+      </ng-template>
     </div>
 </div>

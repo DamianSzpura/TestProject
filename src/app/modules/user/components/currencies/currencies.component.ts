@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyValues } from 'src/app/models/currency-values';
+import { BitbayApiService } from 'src/app/services/bitbay-api.service';
 
 @Component({
   selector: 'app-currencies',
@@ -7,15 +8,35 @@ import { CurrencyValues } from 'src/app/models/currency-values';
   styleUrls: ['./currencies.component.less']
 })
 export class CurrenciesComponent implements OnInit {
-
   currencyValuesList: CurrencyValues[];
-
   usdToPlnValue: number;
-  currencyValuesPosition: number;
 
-  constructor() { }
+  constructor(
+      private bitbayApi: BitbayApiService
+  ) { }
 
   ngOnInit() {
+    this.initData();
+
+    this.currencyValuesList.forEach(currencyValues => {
+      this.getCurrencyValue(currencyValues);
+    });
+  }
+
+  getCurrencyValue(currencyValues: CurrencyValues) {
+    this.bitbayApi.get(currencyValues.currency, "PLN")
+      .subscribe(
+        (data: any) => {
+            currencyValues.bidValue = data.bid;
+            currencyValues.bidValueUSD = data.bid/this.usdToPlnValue;
+        },
+        error => {
+            console.log("Couldn't get data from " + currencyValues.currency + " and PLN");
+        }
+      );
+  }
+
+  initData(){
     this.currencyValuesList = [
       {
         currency: "BTC"
@@ -28,9 +49,5 @@ export class CurrenciesComponent implements OnInit {
       }
     ];
     this.usdToPlnValue = 3;
-   }
-
-  onBidGet(newPlnCurrencyValues: CurrencyValues) {
-    this.currencyValuesList.find(currencyValues => currencyValues.currency == newPlnCurrencyValues.currency).bidValue = (newPlnCurrencyValues.bidValue / this.usdToPlnValue);
   }
 }

@@ -3,13 +3,33 @@
     Currencies
   </h1>
   <div class="currencyComponents" *ngFor="let currencyValues of currencyValuesList">
-    <app-currency-pln
-      [currency]="currencyValues.currency"
-      (plnCurrencyValues)="onBidGet($event)">
-    </app-currency-pln>
-    <app-currency-usd
-      [currency]="currencyValues.currency"
-      [usdBid]="currencyValues.bidValue">
-    </app-currency-usd>
+    <currency-pln>
+      <p *ngIf="currencyValues.bidValue">
+        {{currencyValues.currency}}/PLN
+        <b *ngIf="currencyValues.currency == 'BTC'; else normalPrint"
+            style="color: #FFFF00">
+            {{currencyValues.bidValue | number : '1.2-2'}}
+        </b>
+        <ng-template #normalPrint>
+          <b>
+            {{currencyValues.bidValue | number : '1.2-2'}}
+          </b>
+        </ng-template>
+      </p>
+    </currency-pln>
+    <currency-usd>
+      <p *ngIf="currencyValues.bidValueUSD">
+        {{currencyValues.currency}}/USD
+        <b *ngIf="currencyValues.currency == 'BTC'; else normalPrint"
+            style="color: #FFFF00">
+            {{currencyValues.bidValueUSD | number : '1.1-1'}}
+        </b>
+        <ng-template #normalPrint>
+          <b>
+            {{currencyValues.bidValueUSD | number : '1.1-1'}}
+          </b>
+        </ng-template>
+      </p>
+    </currency-usd>
   </div>
 </div>

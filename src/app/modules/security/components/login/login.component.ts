@@ -3,17 +3,17 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.less']
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loading = false;
     submitted = false;
     returnUrl: string;
+    activeUser: any;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
             password: ['', Validators.required]
         });
 
-        this.authenticationService.logout();
-        this.returnUrl = "/features"
+        this.activeUser = this.authenticationService.currentUserValue
+        this.returnUrl = "/features";
     }
 
     get form() { return this.loginForm.controls; }
@@ -48,5 +48,10 @@ export class LoginComponent implements OnInit {
         else {
           this.loading = false;
         }
+    }
+
+    onLogout() {
+      this.authenticationService.logout();
+      this.activeUser = this.authenticationService.currentUserValue;
     }
 }
