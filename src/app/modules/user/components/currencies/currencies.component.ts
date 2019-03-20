@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CurrencyValues } from 'src/app/models/currency-values';
 import { BitbayApiService } from 'src/app/services/bitbay-api.service';
+import { Subscription, interval, timer } from 'rxjs';
 
 @Component({
   selector: 'app-currencies',
   templateUrl: './currencies.component.html',
   styleUrls: ['./currencies.component.less']
 })
-export class CurrenciesComponent implements OnInit {
+export class CurrenciesComponent implements OnInit, OnDestroy {
   currencyValuesList: CurrencyValues[];
+  subscription: Subscription;
   usdToPlnValue: number;
 
   constructor(
@@ -17,10 +19,17 @@ export class CurrenciesComponent implements OnInit {
 
   ngOnInit() {
     this.initData();
-
+/*
     this.currencyValuesList.forEach(currencyValues => {
       this.getCurrencyValue(currencyValues);
     });
+*/
+    const source = timer(0, 5000);
+    this.subscription = source.subscribe(val =>
+      this.currencyValuesList.forEach(currencyValues => {
+        this.getCurrencyValue(currencyValues);
+      })
+    );
   }
 
   getCurrencyValue(currencyValues: CurrencyValues) {
@@ -49,5 +58,9 @@ export class CurrenciesComponent implements OnInit {
       }
     ];
     this.usdToPlnValue = 3;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

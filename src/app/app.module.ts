@@ -1,7 +1,6 @@
 import { AppComponent } from './app.component';
 
 import { NgModule } from '@angular/core';
-import { UserModule } from './modules/user/user.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { SecurityModule } from './modules/security/security.module';
@@ -16,7 +15,6 @@ import { TestInterceptor } from './helpers/test.interceptor';
   ],
   imports: [
     SecurityModule,
-    UserModule,
     BrowserModule,
     BrowserModule,
     HttpClientModule,
