@@ -1,26 +1,23 @@
-import { LoginComponent } from './components/login/login.component';
-import { NotFoundComponent } from './components/not-found/not-found.component';
+import { LoginComponent } from "./components/login/login.component";
+import { NotFoundComponent } from "./components/not-found/not-found.component";
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
   {
-    path: 'login',
+    path: "login",
     component: LoginComponent
   },
   {
-    path: '404',
+    path: "404",
     component: NotFoundComponent
   },
-  { path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  }
+  { path: "", redirectTo: "/login", pathMatch: "full" }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class SecurityRoutingModule {}

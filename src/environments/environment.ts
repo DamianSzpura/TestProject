@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  bitbayApiUrl: 'https://bitbay.net/API/Public'
+  bitbayApiUrl: "https://bitbay.net/API/Public"
 };
 
 /*

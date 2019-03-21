@@ -1,63 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CurrencyValues } from 'src/app/models/currency-values';
-import { BitbayApiService } from 'src/app/services/bitbay-api.service';
-import { Subscription, interval, timer } from 'rxjs';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import { CurrencyValues } from "src/app/models/currency-values";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ChangeDetectionStrategy } from "@angular/core";
+import { Subscription, interval } from 'rxjs';
 
 @Component({
-  selector: 'app-currencies',
-  templateUrl: './currencies.component.html',
-  styleUrls: ['./currencies.component.less']
+  selector: "app-currencies",
+  templateUrl: "./currencies.component.html",
+  styleUrls: ["./currencies.component.less"],
+  changeDetection: ChangeDetectionStrategy.OnPush // poczytac sobie o tym
 })
 export class CurrenciesComponent implements OnInit, OnDestroy {
   currencyValuesList: CurrencyValues[];
   subscription: Subscription;
   usdToPlnValue: number;
 
-  constructor(
-      private bitbayApi: BitbayApiService
-  ) { }
+  constructor(private cd: ChangeDetectorRef, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.initData();
-/*
-    this.currencyValuesList.forEach(currencyValues => {
-      this.getCurrencyValue(currencyValues);
+    this.currencyValuesList = this.route.snapshot.data.currencyValuesList;
+    var reloadNumber = 0;
+    const source = interval(5000);
+    this.subscription = source.subscribe(val => {
+      reloadNumber++;
+      this.router.navigate(["/currencies/" +  reloadNumber]);
+      this.cd.detectChanges();
     });
-*/
-    const source = timer(0, 5000);
-    this.subscription = source.subscribe(val =>
-      this.currencyValuesList.forEach(currencyValues => {
-        this.getCurrencyValue(currencyValues);
-      })
-    );
-  }
-
-  getCurrencyValue(currencyValues: CurrencyValues) {
-    this.bitbayApi.get(currencyValues.currency, "PLN")
-      .subscribe(
-        (data: any) => {
-            currencyValues.bidValue = data.bid;
-            currencyValues.bidValueUSD = data.bid/this.usdToPlnValue;
-        },
-        error => {
-            console.log("Couldn't get data from " + currencyValues.currency + " and PLN");
-        }
-      );
-  }
-
-  initData(){
-    this.currencyValuesList = [
-      {
-        currency: "BTC"
-      },
-      {
-        currency: "LSK"
-      },
-      {
-        currency: "ETH"
-      }
-    ];
-    this.usdToPlnValue = 3;
   }
 
   ngOnDestroy() {

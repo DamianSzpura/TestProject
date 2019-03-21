@@ -1,5 +1,5 @@
 export class CurrencyValues {
-    currency: string;
-    bidValue?: number;
-    bidValueUSD?: number;
+  currency: string;
+  bidValue?: number;
+  bidValueUSD?: number;
 }

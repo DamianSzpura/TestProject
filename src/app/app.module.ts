@@ -1,18 +1,15 @@
-import { AppComponent } from './app.component';
+import { AppComponent } from "./app.component";
 
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { BrowserModule } from '@angular/platform-browser';
-import { SecurityModule } from './modules/security/security.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from "@angular/core";
+import { AppRoutingModule } from "./app-routing.module";
+import { BrowserModule } from "@angular/platform-browser";
+import { SecurityModule } from "./modules/security/security.module";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
-import { TestInterceptor } from './helpers/test.interceptor';
-
+import { TestInterceptor } from "./helpers/test.interceptor";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     SecurityModule,
     BrowserModule,
@@ -21,8 +18,8 @@ import { TestInterceptor } from './helpers/test.interceptor';
     AppRoutingModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: TestInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TestInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
