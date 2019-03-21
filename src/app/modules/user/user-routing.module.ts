@@ -20,13 +20,13 @@ const routes: Routes = [
         path: "currencies",
         component: CurrenciesComponent,
         resolve: { currencyValuesList: CurrencyResolver },
-        runGuardsAndResolvers: 'always',
+        runGuardsAndResolvers: "always",
         children: [
           {
             path: ":id"
           }
         ]
-      },
+      }
     ]
   }
 ];
